@@ -4,27 +4,48 @@
          
 <head>
     <meta charset="UTF-8">
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} "/>
-
+    <!-- <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/webjars//jquery/css/core.css}" /> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="/css/style.css" rel="stylesheet">
     <title>Poker Planner</title>
 </head>
 <body>
-<p>Welcome to poker planner!</p>
+<div th:replace="~{fragments/header.html :: header}"></div>
 
-<form th:action="@{/createNewGame}" th:method="post">
-    <div class="mb-3" >
-        <label for="GameName" class="form-label">Game theme:&nbsp;</label>
-        <input type="text" placeholder="Game name here" name="gameName">
-        <br>
-        <label for="PlayerName" class="form-label">Player name:&nbsp;</label>
-        <input type="name" class="form-control" id="PlayerName" placeholder="Your name here"  name="playerName">
-    </div>
-    <div>
-        <button type="submit">Start new game</button>
-    </div>
-</form>
-<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
-<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
-<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+<div class= "container-fluid">
+    <form th:action="@{/createNewGame}" th:method="post">
+        <div class="mb-4" >
+            <label for="GameName" class="form-label">Game theme:&nbsp;</label>
+            <input type="text"  placeholder="FacebookKiller#46324" id="GameName" name="gameName">
+            <br>
+            <label for="PlayerName" class="form-label">Player name: &nbsp;</label>
+            <input type="text" placeholder="Alex" id="PlayerName" name="playerName">
+        </div>
+        <div>
+            <button type="submit " class="btn btn-primary">Start new game</button>
+        </div>
+    </form>
+</div>  
+
+
+
+<script>
+        var link = window.location.pathname;
+    var home = document.getElementById("home");
+    var gameboard = document.getElementById("gameboard");
+
+    switch (link) {
+        case '/':
+            home.classList.add("active");
+            break;
+        case '/gameboard':
+            gameboard.classList.add("active");
+            break;
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+
 </body>
 </html>
