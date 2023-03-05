@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Poker Planner</title>
+</head>
+<body>
+<p>Welcome to poker planner!</p>
+
+<form th:action="@{/setName}" th:method="post">
+    <div>
+        <label>Player name:&nbsp;</label>
+        <input type="text" name="playerName">
+    </div>
+    <div>
+        <button type="submit">Join game</button>
+    </div>
+</form>
+</body>
+</html>

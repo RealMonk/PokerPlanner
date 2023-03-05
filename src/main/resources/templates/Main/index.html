@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:th="http://www.thymeleaf.org">
+         
+<head>
+    <meta charset="UTF-8">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.3/css/bootstrap.min.css} "/>
+
+    <title>Poker Planner</title>
+</head>
+<body>
+<p>Welcome to poker planner!</p>
+
+<form th:action="@{/createNewGame}" th:method="post">
+    <div class="mb-3" >
+        <label for="GameName" class="form-label">Game theme:&nbsp;</label>
+        <input type="text" placeholder="Game name here" name="gameName">
+        <br>
+        <label for="PlayerName" class="form-label">Player name:&nbsp;</label>
+        <input type="name" class="form-control" id="PlayerName" placeholder="Your name here"  name="playerName">
+    </div>
+    <div>
+        <button type="submit">Start new game</button>
+    </div>
+</form>
+<script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+</body>
+</html>
