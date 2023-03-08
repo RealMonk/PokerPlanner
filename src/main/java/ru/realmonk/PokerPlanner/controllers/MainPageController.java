@@ -23,26 +23,26 @@ public class MainPageController {
     GameService gameService;
 
     @GetMapping("/")
-    public String mainPage(HttpSession session) {
+    public String mainPage(HttpSession session, Model model) {
 
         LOG.info("index");
-        session.setMaxInactiveInterval(24 * 60 * 60);
         printSessionInfo(session);
+        model.addAttribute("playerName", session.getAttribute("playerName"));
         LOG.info("");
         return "Main/index";
     }
 
     @PostMapping("/createNewGame")
     public String NewGame(HttpSession session,
-                          @RequestParam(value = "gameName") String gameName,
-                          @RequestParam(value = "playerName") String playerName) {
+            @RequestParam(value = "gameName") String gameName,
+            @RequestParam(value = "playerName") String playerName) {
+
         LOG.info("New game method");
         String gameID = gameService.createGame(gameName);
-        session.setAttribute("gameID",gameID);
+        session.setAttribute("gameID", gameID);
         session.setAttribute("playerName", playerName);
-        LOG.info("New game created: {}",session.getAttribute("gameID"));
-//        LOG.info("New game created: " + session.getAttribute("gameID"));
-        LOG.info("");
+        LOG.info("New game created: {}", session.getAttribute("gameID"));
+        // LOG.info("New game created: " + session.getAttribute("gameID"));
         return "redirect:/gameboard";
     }
 
@@ -53,12 +53,7 @@ public class MainPageController {
         Game game = gameService.getGameByID((String) session.getAttribute("gameID"));
         game.addPlayerToGame(session.getId(), (String) session.getAttribute("playerName"));
         LOG.info("Game name in gameboard method: " + game.getGameName());
-        model.addAttribute("gameName", game.getGameName());
-        model.addAttribute("sessionID", session.getId());
-        model.addAttribute("currentGameUUID", game.getUUID());
-        model.addAttribute("playerName", session.getAttribute("playerName"));
-        model.addAttribute("playerList",game.getPlayersMap() );
-        LOG.info("");
+        writeInfoToModel(session, model, game);
         return "Main/gameboard";
     }
 
@@ -68,11 +63,10 @@ public class MainPageController {
         printSessionInfo(session);
         Game game = gameService.getGameByID(id);
         session.setAttribute("gameID", id);
-        LOG.info("Joining game, name: "+game.getGameName()+" ID: " + game.getUUID());
-        LOG.info("");
+        LOG.info("Joining game, name: " + game.getGameName() + " ID: " + game.getUUID());
 
         String playerName = (String) session.getAttribute("playerName");
-        if (!(playerName==null)){
+        if (!(playerName == null)) {
             LOG.info(playerName);
             return "redirect:/gameboard";
         }
@@ -81,19 +75,24 @@ public class MainPageController {
 
     @PostMapping("/setName")
     public String setName(HttpSession session,
-                          @RequestParam(value = "playerName") String playerName) {
+            @RequestParam(value = "playerName") String playerName) {
         LOG.info("Set name method");
         session.setAttribute("playerName", playerName);
         LOG.info("Player name set to : " + session.getAttribute("playerName"));
-        LOG.info("");
         return "redirect:/gameboard";
     }
 
     private void printSessionInfo(HttpSession session) {
-        LOG.info("Session ID = {} , Session TTL = {}", session.getId(), session.getMaxInactiveInterval() );
-//        LOG.info("Session ID = " + session.getId() + ", Session TTL = " + session.getMaxInactiveInterval());
+        LOG.info("Session ID = {} , Session TTL = {}", session.getId(), session.getMaxInactiveInterval());
+        // LOG.info("Session ID = " + session.getId() + ", Session TTL = " +
+        // session.getMaxInactiveInterval());
     }
 
-
-    
+    private void writeInfoToModel(HttpSession session, Model model, Game game) {
+        model.addAttribute("gameName", game.getGameName());
+        model.addAttribute("sessionID", session.getId());
+        model.addAttribute("currentGameUUID", game.getUUID());
+        model.addAttribute("playerName", session.getAttribute("playerName"));
+        model.addAttribute("playerList", game.getPlayersMap());
+    }
 }

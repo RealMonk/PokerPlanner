@@ -1,6 +1,5 @@
 package ru.realmonk.PokerPlanner.models;
 
-
 public class User {
 
     private final int id;
